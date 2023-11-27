@@ -4,6 +4,28 @@ import numpy as np
 # TODO 多进程计算
 def backtrack(nums, path, res):
     pathlen = len(path)
+    # 同质剪枝
+    # 首行判断
+    if 2 <= pathlen <= 4 or 18 <= pathlen <= 20:
+        if path[pathlen - 1] < path[pathlen - 2]:
+            return
+
+    # 首列判断
+    if pathlen % 4 == 1:
+        if pathlen != 1 and pathlen != 17:
+            if path[pathlen - 1] < path[pathlen - 5]:
+                return
+
+    # 转置同质剪枝
+    if pathlen == 5 or pathlen == 21:
+        if path[pathlen - 1] < path[pathlen - 4]:
+            return
+
+    # 第二个矩阵左上角取最小值
+    if pathlen == 17:
+        if np.min(np.array(nums)) < path[pathlen - 1]:
+            return
+
     # 第四列可直接减出来
     # 检查行
     if pathlen % 4 == 3:
